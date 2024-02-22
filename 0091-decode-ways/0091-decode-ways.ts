@@ -1,6 +1,6 @@
 function numDecodings(s: string): number {
   const n = s.length;
-  const dp: number[] = new Array(n + 1).fill(0);
+  const dp: number[] = Array(n + 1).fill(0);
 
   dp[0] = 1; // Empty string can be decoded in one way
 
