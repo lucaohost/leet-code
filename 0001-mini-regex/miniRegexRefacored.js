@@ -1,50 +1,46 @@
-function groupLetters(text) {
-    let groupedLetters = [];
-    let letters = text.split("");
-    groupedLetters.push(letters[0]);
-    for (let i = 1; i < text.length; i++) {
-        let previousLetter = letters[i - 1];
-        let currentLetter = letters[i];
-        if (currentLetter === previousLetter) {
-            let lastIndex = groupedLetters.length - 1;
-            groupedLetters[lastIndex] = groupedLetters[lastIndex] + currentLetter;
-        } else {
-            groupedLetters.push(currentLetter);
-        }
-    }
-    return groupedLetters;
+// Test 1
+runTest("aaaaabbccc", "a*bbbcc", false);
+// Test 2
+runTest("aaaaaabbcc", "a*bbcc", true);
+// Test 3
+runTest("caaad", "ca*.", true);
+// Test 4
+runTest("aaddcc", ".*dda*", false);
+
+function solveRegex(text, pattern) {
+    const groupedLetters = groupItems(text, "letter");
+    const groupedPatterns = groupItems(pattern, "pattern");
+    return doRegex(groupedLetters, groupedPatterns);
 }
 
-function groupPatterns(pattern) {
-    let patterns = pattern.split("");
-    let groupedPatterns = [];
-    groupedPatterns.push(patterns[0]);
-    for (let i = 1; i < pattern.length; i++) {
-        let previousChar = pattern[i - 1];
-        let currentChar = pattern[i];
-        if (currentChar === "*" || currentChar === previousChar) {
-            let lastIndex = groupedPatterns.length - 1;
-            groupedPatterns[lastIndex] = groupedPatterns[lastIndex] + currentChar;
+function groupItems(input, itemType) {
+    const items = input.split("");
+    const groupedItems = [items[0]];
+    for (let i = 1; i < input.length; i++) {
+        const previousItem = items[i - 1];
+        const currentItem = items[i];
+        const patternMultipleTimes = itemType === "pattern" && currentItem === "*";
+        if (patternMultipleTimes || currentItem === previousItem) {
+            const lastIndex = groupedItems.length - 1;
+            groupedItems[lastIndex] += currentItem;
         } else {
-            groupedPatterns.push(currentChar);
+            groupedItems.push(currentItem);
         }
     }
-    return groupedPatterns;
+    return groupedItems;
 }
 
-function compareGroups(groupedLetters, groupedPatterns) {
+function doRegex(groupedLetters, groupedPatterns) {
     if (groupedPatterns.length !== groupedLetters.length) {
         return false;
     }
-
     for (let index in groupedLetters) {
-        let groupLetters = groupedLetters[index];
-        let character = groupLetters[0];
-        let charOccurrences = groupLetters.length;
+        const groupInput = groupedLetters[index];
+        const character = groupInput[0];
+        const charOccurrences = groupInput.length;
 
-        let groupPattern = groupedPatterns[index];
-        let patternOccurrences = 0;
-        let pattern = groupPattern[0];
+        const groupPattern = groupedPatterns[index];
+        let patternOccurrences;
 
         if (groupPattern.length === 2) {
             patternOccurrences = groupPattern[1] === "*" ? "*" : 2;
@@ -52,7 +48,7 @@ function compareGroups(groupedLetters, groupedPatterns) {
             patternOccurrences = groupPattern.length;
         }
 
-        if (pattern !== "." && pattern !== character) {
+        if (groupPattern[0] !== "." && groupPattern[0] !== character) {
             return false;
         }
 
@@ -60,29 +56,10 @@ function compareGroups(groupedLetters, groupedPatterns) {
             return false;
         }
     }
-
     return true;
 }
 
-function solveRegex(text, pattern) {
-    let groupedLetters = groupLetters(text);
-    let groupedPatterns = groupPatterns(pattern);
-    return compareGroups(groupedLetters, groupedPatterns);
-}
-
-//Test 1
-let textTest = "aaaaabbccc";
-let patternTest = "a*bbbcc";
-console.log(solveRegex(textTest, patternTest) === false ? "Test passed!" : "Test failed!");
-//Test 2
-textTest = "aaaaaabbcc";
-patternTest = "a*bbcc";
-console.log(solveRegex(textTest, patternTest) === true ? "Test passed!" : "Test failed!");
-//Test 3
-textTest = "caaad";
-patternTest = "ca*.";
-console.log(solveRegex(textTest, patternTest) === true ? "Test passed!" : "Test failed!");
-//Test 3
-textTest = "aaddcc";
-patternTest = ".*dda*";
-console.log(solveRegex(textTest, patternTest) === false ? "Test passed!" : "Test failed!");
+function runTest (text, pattern, expected) {
+    const result = solveRegex(text, pattern);
+    console.log(result === expected ? "Test passed!" : "Test failed!");
+};
