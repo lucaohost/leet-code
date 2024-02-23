@@ -1,12 +1,3 @@
-// Test 1
-runTest("aaaaabbccc", "a*bbbcc", false);
-// Test 2
-runTest("aaaaaabbcc", "a*bbcc", true);
-// Test 3
-runTest("caaad", "ca*.", true);
-// Test 4
-runTest("aaddcc", ".*dda*", false);
-
 function solveRegex(text, pattern) {
     const groupedLetters = groupItems(text, "letter");
     const groupedPatterns = groupItems(pattern, "pattern");
@@ -63,3 +54,12 @@ function runTest (text, pattern, expected) {
     const result = solveRegex(text, pattern);
     console.log(result === expected ? "Test passed!" : "Test failed!");
 };
+
+// Test 1
+runTest("aaaaabbccc", "a*bbbcc", false);
+// Test 2
+runTest("aaaaaabbcc", "a*bbcc", true);
+// Test 3
+runTest("caaad", "ca*.", true);
+// Test 4
+runTest("aaddcc", ".*dda*", false);
