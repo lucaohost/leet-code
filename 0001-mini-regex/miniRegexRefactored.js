@@ -56,10 +56,23 @@ function runTest (text, pattern, expected) {
 };
 
 // Test 1
+console.log("Starting Test 1.")
 runTest("aaaaabbccc", "a*bbbcc", false);
 // Test 2
+console.log("Starting Test 2.")
 runTest("aaaaaabbcc", "a*bbcc", true);
 // Test 3
+console.log("Starting Test 3.")
 runTest("caaad", "ca*.", true);
 // Test 4
+console.log("Starting Test 4.")
 runTest("aaddcc", ".*dda*", false);
+// Test 5
+console.log("Starting Test 5.")
+runTest("aaddcc", ".*c", true);
+// Test 6
+console.log("Starting Test 6.")
+runTest("aaddcc", ".*cc", true);
+// Test 7
+console.log("Starting Test 7.")
+runTest("aaddcc", ".*ccc", false);

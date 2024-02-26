@@ -25,3 +25,7 @@ console.log(solveRegex(textTest, patternTest) === true ? "Test passed!" : "Test 
 textTest = "aaddcc";
 patternTest = ".*dda*";
 console.log(solveRegex(textTest, patternTest) === false ? "Test passed!" : "Test failed!");
+// Test 5
+textTest = "aaddcc";
+patternTest = ".*.*c*";
+console.log(solveRegex(textTest, patternTest) === true ? "Test passed!" : "Test failed!");
