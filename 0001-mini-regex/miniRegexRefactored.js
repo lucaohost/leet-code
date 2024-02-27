@@ -21,36 +21,58 @@ function groupItems(input, itemType) {
     return groupedItems;
 }
 
-function doRegex(groupedLetters, groupedPatterns) {
-    if (groupedPatterns.length !== groupedLetters.length) {
-        return false;
-    }
-    for (let index in groupedLetters) {
-        const groupInput = groupedLetters[index];
-        const character = groupInput[0];
-        const charOccurrences = groupInput.length;
-
-        const groupPattern = groupedPatterns[index];
-        let patternOccurrences;
-
-        if (groupPattern.length === 2) {
-            patternOccurrences = groupPattern[1] === "*" ? "*" : 2;
-        } else {
-            patternOccurrences = groupPattern.length;
+function doRegex(groupedLetters, patterns) {
+    let indexGroupLetterBeingValidated = 0;
+    let groupedLettersReversed = groupedLetters.slice().reverse();
+    for (let [index, pattern] of patterns.entries()) {
+        if (indexGroupLetterBeingValidated === groupedLetters.length - 1) {
+            let positionPatternInReverse = patterns.length - 1 - index;
+            let character = groupedLettersReversed[positionPatternInReverse][0];
+            let charOccurrences = groupedLettersReversed[positionPatternInReverse].length;
+            const patternChar = pattern[0];
+            let patternOccurrences = evaluatePatternOccurences(pattern);
+            if (patternChar !== "." && patternChar !== character) {
+                    return false;
+            }
+            if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
+                    return false;
+            }
+            continue;
         }
-
-        if (groupPattern[0] !== "." && groupPattern[0] !== character) {
-            return false;
-        }
-
-        if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
-            return false;
+        let patternMatched = 0;
+        for (let i = indexGroupLetterBeingValidated; i < groupedLetters.length; i++) {
+            indexGroupLetterBeingValidated = i;
+            const character = groupedLetters[i][0];
+            const charOccurrences = groupedLetters[i].length;
+            const patternChar = pattern[0];
+            let patternOccurrences = evaluatePatternOccurences(pattern);
+            if (patternChar !== "." && patternChar !== character) {
+                if (patternMatched === 0) {
+                    return false;
+                }
+                break;
+            }
+            if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
+                if (patternMatched === 0) {
+                    return false;
+                }
+                break;
+            }
+            patternMatched++;
         }
     }
     return true;
 }
 
-function runTest (text, pattern, expected) {
+function evaluatePatternOccurences(pattern) {
+    if (pattern.length === 2) {
+        return pattern[1] === "*" ? "*" : 2;
+    } else {
+        return pattern.length;
+    }
+}
+
+function runTest(text, pattern, expected) {
     const result = solveRegex(text, pattern);
     console.log(result === expected ? "Test passed!" : "Test failed!");
 };
