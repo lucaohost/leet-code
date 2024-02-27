@@ -77,4 +77,5 @@ runTest("aaddcc", ".*c", true, 5);
 runTest("aaddcc", ".*cc", true, 6);
 runTest("aaddcc", ".*ccc", false, 7);
 runTest("aaaabbbbccccdddaaaaaaa", ".*ddda*", true, 8);
+runTest("aaaabbbbccccdddaaaaaaa", ".*dda*", true, 9);
 
