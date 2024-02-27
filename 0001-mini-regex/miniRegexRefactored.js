@@ -68,7 +68,7 @@ function runTest(text, pattern, expected, testNumber) {
     console.log(result === expected ? "Test passed!" : "Test failed!");
 };
 
-
+// To test manually and solve doubts: https://regex101.com/
 runTest("aaaaabbccc", "a*bbbcc", false, 1);
 runTest("aaaaaabbcc", "a*bbcc", true, 2);
 runTest("caaad", "ca*.", true, 3);
