@@ -19,44 +19,36 @@ function splitPatterns(pattern) {
     return splitedPatterns;
 }
 
-function doRegex(groupedLetters, patterns) {
+function doRegex(letters, patterns) {
     let indexGroupLetterBeingValidated = 0;
-    let groupedLettersReversed = groupedLetters.slice().reverse();
+    let lettersReversed = letters.slice().reverse();
     for (let [index, pattern] of patterns.entries()) {
-        if (indexGroupLetterBeingValidated === groupedLetters.length - 1) {
+        if (indexGroupLetterBeingValidated === letters.length - 1) {
             let positionPatternInReverse = patterns.length - 1 - index;
-            let character = groupedLettersReversed[positionPatternInReverse][0];
-            let charOccurrences = groupedLettersReversed[positionPatternInReverse].length;
+            let character = lettersReversed[positionPatternInReverse][0];
             const patternChar = pattern[0];
-            let patternOccurrences = evaluatePatternOccurences(pattern);
             if (patternChar !== "." && patternChar !== character) {
-                return false;
-            }
-            if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
                 return false;
             }
             continue;
         }
         let patternMatched = 0;
-        for (let i = indexGroupLetterBeingValidated; i < groupedLetters.length; i++) {
+        for (let i = indexGroupLetterBeingValidated; i < letters.length; i++) {
             indexGroupLetterBeingValidated = i;
-            const character = groupedLetters[i][0];
-            const charOccurrences = groupedLetters[i].length;
+            const character = letters[i][0];
             const patternChar = pattern[0];
-            let patternOccurrences = evaluatePatternOccurences(pattern);
             if (patternChar !== "." && patternChar !== character) {
-                if (patternMatched === 0) {
-                    return false;
-                }
-                break;
-            }
-            if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
                 if (patternMatched === 0) {
                     return false;
                 }
                 break;
             }
             patternMatched++;
+            const patternOccurences = pattern[1];
+            if (patternOccurences !== "*") {
+                indexGroupLetterBeingValidated++;
+                break;
+            }
         }
     }
     return true;
@@ -70,29 +62,19 @@ function evaluatePatternOccurences(pattern) {
     }
 }
 
-function runTest(text, pattern, expected) {
+function runTest(text, pattern, expected, testNumber) {
+    console.log("Starting Test " + testNumber)
     const result = solveRegex(text, pattern);
     console.log(result === expected ? "Test passed!" : "Test failed!");
 };
 
-// Test 1
-console.log("Starting Test 1.")
-runTest("aaaaabbccc", "a*bbbcc", false);
-// Test 2
-console.log("Starting Test 2.")
-runTest("aaaaaabbcc", "a*bbcc", true);
-// Test 3
-console.log("Starting Test 3.")
-runTest("caaad", "ca*.", true);
-// Test 4
-console.log("Starting Test 4.")
-runTest("aaddcc", ".*dda*", false);
-// Test 5
-console.log("Starting Test 5.")
-runTest("aaddcc", ".*c", true);
-// Test 6
-console.log("Starting Test 6.")
-runTest("aaddcc", ".*cc", true);
-// Test 7
-console.log("Starting Test 7.")
-runTest("aaddcc", ".*ccc", false);
+
+runTest("aaaaabbccc", "a*bbbcc", false, 1);
+runTest("aaaaaabbcc", "a*bbcc", true, 2);
+runTest("caaad", "ca*.", true, 3);
+runTest("aaddcc", ".*dda*", false, 4);
+runTest("aaddcc", ".*c", true, 5);
+runTest("aaddcc", ".*cc", true, 6);
+runTest("aaddcc", ".*ccc", false, 7);
+runTest("aaaabbbbccccdddaaaaaaa", ".*ddda*", true, 8);
+
