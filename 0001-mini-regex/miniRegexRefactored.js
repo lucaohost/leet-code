@@ -1,24 +1,22 @@
 function solveRegex(text, pattern) {
-    const groupedLetters = groupItems(text, "letter");
-    const groupedPatterns = groupItems(pattern, "pattern");
-    return doRegex(groupedLetters, groupedPatterns);
+    const letters = text.split("");
+    const splitedPatterns = splitPatterns(pattern);
+    return doRegex(letters, splitedPatterns);
 }
 
-function groupItems(input, itemType) {
-    const items = input.split("");
-    const groupedItems = [items[0]];
-    for (let i = 1; i < input.length; i++) {
-        const previousItem = items[i - 1];
-        const currentItem = items[i];
-        const patternMultipleTimes = itemType === "pattern" && currentItem === "*";
-        if (patternMultipleTimes || currentItem === previousItem) {
-            const lastIndex = groupedItems.length - 1;
-            groupedItems[lastIndex] += currentItem;
+function splitPatterns(pattern) {
+    const patternChars = pattern.split("");
+    const splitedPatterns = [patternChars[0]];
+    for (let i = 1; i < patternChars.length; i++) {
+        const currentChar = patternChars[i];
+        if (currentChar === "*") {
+            const lastIndex = splitedPatterns.length - 1;
+            splitedPatterns[lastIndex] += currentChar;
         } else {
-            groupedItems.push(currentItem);
+            splitedPatterns.push(currentChar);
         }
     }
-    return groupedItems;
+    return splitedPatterns;
 }
 
 function doRegex(groupedLetters, patterns) {
@@ -32,10 +30,10 @@ function doRegex(groupedLetters, patterns) {
             const patternChar = pattern[0];
             let patternOccurrences = evaluatePatternOccurences(pattern);
             if (patternChar !== "." && patternChar !== character) {
-                    return false;
+                return false;
             }
             if (patternOccurrences !== "*" && patternOccurrences !== charOccurrences) {
-                    return false;
+                return false;
             }
             continue;
         }
