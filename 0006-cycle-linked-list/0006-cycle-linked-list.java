@@ -1,3 +1,4 @@
+// HackerRank provided the other necessary codes to run
 static boolean hasCycle(SinglyLinkedListNode head) {
     Map<SinglyLinkedListNode, Boolean> visitedNodes = new HashMap<>();
     SinglyLinkedListNode node = head;
