@@ -21,6 +21,7 @@ var maxConsecutiveAnswers = function (answerKey, k) {
             triesFoward--;
         }
         if (i === letters1.length - 1 && triesFoward > 0 && letters1Loop === false) {
+            // em vez de reiniciar o loop, ir substituindo para trás a partir da init position até tries === 0
             letters1Loop = true;
             i = -1;
         }
@@ -37,6 +38,7 @@ var maxConsecutiveAnswers = function (answerKey, k) {
             triesBackward--;
         }
         if (i === 0 && triesBackward > 0  && letters2Loop === false) {
+            // em vez de reiniciar o loop, ir substituindo para frente a partir da end position até tries === 0
             letters2Loop = true;
             i = letters2.length;
         }
