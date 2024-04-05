@@ -17,3 +17,7 @@ function adjacentChars(char1, char2) {
         return char1.toUpperCase() === char2;
     }
 }
+
+console.log(makeGood("leEeetcode")); // Output: "leetcode"
+console.log(makeGood("abBAcC")); // Output: ""
+console.log(makeGood("s")); // Output: "s"
