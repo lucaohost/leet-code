@@ -9,6 +9,5 @@ function twoSum(nums: number[], target: number): number[] {
             }
         }
     }
-    // Se nenhum par for encontrado, retornar um array vazio
     return [];
 }
