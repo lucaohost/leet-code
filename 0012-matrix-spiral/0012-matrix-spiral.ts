@@ -1,13 +1,13 @@
-function MatrixSpiral(strArr) {
-    let matrix = [];
-    strArr.forEach((line, i) => {
+function MatrixSpiral(strArr: string[]): string {
+    let matrix: number[][] = [];
+    strArr.forEach((line: string, i: number) => {
         matrix[i] = convertStringToArray(line);
     });
-    let result = [];
-    let top = 0;
-    let bottom = matrix.length - 1;
-    let left = 0;
-    let right = matrix[0].length - 1;
+    let result: number[] = [];
+    let top: number = 0;
+    let bottom: number = matrix.length - 1;
+    let left: number = 0;
+    let right: number = matrix[0].length - 1;
     while (top <= bottom && left <= right) {
         // Print top row
         for (let i = left; i <= right; i++) {
@@ -40,16 +40,16 @@ function MatrixSpiral(strArr) {
     return result.join(', ');
 }
 
-function convertStringToArray(line) {
-    let arrayLine = line.split(", ");
+function convertStringToArray(line: string): number[] {
+    let arrayLine: string[] = line.split(", ");
     arrayLine[0] = arrayLine[0].slice(1);
     arrayLine[arrayLine.length - 1] = arrayLine[arrayLine.length - 1].slice(0, -1);
-    return arrayLine;
+    return arrayLine.map(Number);
 }
 
 console.log(MatrixSpiral(["[1, 2]", "[10, 14]"]));
-// Output: [ [1, 2, 14, 10] ]
+// Output: 1, 2, 14, 10
 console.log(MatrixSpiral(["[1, 2, 3]", "[4, 5, 6]", "[7, 8, 9]"]));
-// Output: [ [1, 2, 3, 6, 9, 8, 7, 4, 5] ]
+// Output: 1, 2, 3, 6, 9, 8, 7, 4, 5
 console.log(MatrixSpiral(["[1, 2, 3, 4]", "[5, 6, 7, 8]", "[9, 10, 11, 12]", "[13, 14, 15, 16]"]));
-// Output: [ [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10] ]
+// Output: 1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
