@@ -1,10 +1,10 @@
-// Translate comments to English
-
-function isMatch(text, pattern) {
+// Function to check if a given text matches a pattern
+function isMatch(text: string, pattern: string): boolean {
     return isMatchHelper(text, pattern, 0, 0);
 }
 
-function isMatchHelper(text, pattern, textIndex, patternIndex) {
+// Helper function to perform the actual matching recursively
+function isMatchHelper(text: string, pattern: string, textIndex: number, patternIndex: number): boolean {
     // If both indices reach the end, it's a complete match
     if (textIndex === text.length && patternIndex === pattern.length) {
         return true;
@@ -42,10 +42,11 @@ function isMatchHelper(text, pattern, textIndex, patternIndex) {
 }
 
 // Tests
-function runTest(text, pattern, expected, testNumber) {
+function runTest(text: string, pattern: string, expected: boolean, testNumber: number): void {
     console.log("Test " + testNumber + ": " + (isMatch(text, pattern) === expected ? "Passed" : "Failed"));
 }
 
+// Running tests
 runTest("aaaaabbccc", "a*bbbcc", false, 1);
 runTest("aaaaaabbcc", "a*bbcc", true, 2);
 runTest("caaad", "ca*.", true, 3);
