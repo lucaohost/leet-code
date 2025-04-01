@@ -12,7 +12,7 @@ def solution(planksA, planksB, nails):
             if minNails == -1:
                 # First nail used plus all the nails traversed before
                 minNails = nailIndex + 1
-            elif lastNailUsedIndex != -1 and nailIndex != lastNailUsedIndex:
+            elif nailIndex != lastNailUsedIndex:
                 # Adds all the nails traversed until it finds a compatible one
                 minNails += nailIndex - lastNailUsedIndex
             plankIndex += 1
